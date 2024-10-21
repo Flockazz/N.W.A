@@ -1,0 +1,67 @@
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+-- FLOCKA OWNER DONT CHANGE ANY OR THE SCRIPT WILL NOT WORK AND U WILL GET BANNED
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 75, 0, 75) 
+button.Position = UDim2.new(0, 10, 0.5, -37.5) 
+button.BackgroundColor3 = Color3.fromRGB(0, 0, 0) 
+button.TextColor3 = Color3.fromRGB(255, 255, 255) 
+button.Text = "Last Stomp"
+button.Parent = screenGui
+button.BorderSizePixel = 0 
+
+local UIS = game:GetService("UserInputService")
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    button.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+button.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = button.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+button.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        update(input)
+    end
+end)
+
+button.MouseButton1Click:Connect(function()
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Last stomp 😜", "All")
+    
+    wait(3)
+    
+    game.Players.LocalPlayer:Kick("You have been kicked after saying 'Last stomp 😜'.")
+end)
